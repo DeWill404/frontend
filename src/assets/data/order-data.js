@@ -222,12 +222,20 @@ export const EXTRA_METAL_KEYS = ["metal", "wire", "solder"];
 
 export const ORDER_STATUS = [
   "Not Started",
-  "Filling",
+  "Design master",
+  "CAD",
+  "CAM",
+  "Mould",
+  "CPX",
+  "Casting",
+  "Filing",
   "Pre Polish",
   "Setting",
-  "Final Polish",
-  "QC",
-  "Repair",
+  "Polish",
+  "Quality Check",
+  "Rhodium",
+  "Billing",
+  "Delivered",
 ];
 
 export const ORDER_DATA = {

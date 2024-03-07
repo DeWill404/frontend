@@ -8,6 +8,7 @@ import {
   DESIGN_TABLE_ACTIONS,
 } from "../../../assets/data/design-data";
 import {
+  createDesign,
   deleteDesign,
   getDesignList,
   updateDesign,
@@ -74,6 +75,12 @@ export default function Designs() {
     [dataList]
   );
 
+  const showCreateForm = () => {
+    scrollToTop();
+    overflowHidden();
+    setFormVisiblity(FORM_STATE.CREATE);
+  };
+
   const closeForm = () => {
     overflowAuto();
     setFormVisiblity(FORM_STATE.CLOSE);
@@ -86,12 +93,18 @@ export default function Designs() {
   const formSubmit = async (payload) => {
     if (showForm !== FORM_STATE.CREATE) {
       payload["design_id"] = formData["design_id"];
-    }
-    const idAsPath = "/" + formData._id;
-    const res = await updateDesign(idAsPath, payload);
-    if (res.status) {
-      setFormData(res.data);
-      isUpdated.current = true;
+      const idAsPath = "/" + formData._id;
+      const res = await updateDesign(idAsPath, payload);
+      if (res.status) {
+        setFormData(res.data);
+        isUpdated.current = true;
+      }
+    } else {
+      const res = await createDesign(payload);
+      if (res.status) {
+        closeForm();
+        reload();
+      }
     }
   };
 
@@ -168,7 +181,7 @@ export default function Designs() {
         name={route.name}
         placeholder="Search Designs by ID"
         onSearch={setSearchedValue}
-        showCreateBtn={false}
+        onAdd={showCreateForm}
       />
 
       <Box sx={STX(sx.actionHeader, { alignItems: "start", gap: "20px" })}>
