@@ -1,5 +1,6 @@
 import _ from "lodash";
 import { MESSAGE, ROUTE } from "./contant";
+import axios from "../Service/axios";
 
 export function STX(...sxs) {
   let sx = {};
@@ -76,4 +77,8 @@ export const precision = (num) => {
     return parseInt(_num[0]) + parseFloat(decimal);
   }
   return num;
+};
+
+export const imagePath = (key) => {
+  return process.env.REACT_APP_BACKEND_URI + "/misc/images/" + key;
 };

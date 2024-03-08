@@ -306,7 +306,15 @@ export default function PageTable({
   const rowsPerPage = parseInt(process.env.REACT_APP_PAGE_LIMIT) || 5;
 
   useEffect(() => {
-    setPage(0);
+    if (!rows || !rows.length) {
+      setPage(0);
+    } else {
+      const totalRows = rows.length;
+      const totalPages = Math.ceil(totalRows / rowsPerPage);
+      if (totalPages - 1 < page) {
+        setPage(0);
+      }
+    }
   }, [rows]);
 
   const visibleRows = useMemo(

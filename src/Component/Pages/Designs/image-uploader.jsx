@@ -1,5 +1,5 @@
 import { Box, CircularProgress, IconButton, Typography } from "@mui/material";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FileDrop } from "react-file-drop";
 import {
   IMAGE_PREVIEW_ACTIONS,
@@ -7,6 +7,7 @@ import {
 } from "../../../Helper/contant";
 import Image from "rc-image";
 import { Delete } from "@mui/icons-material";
+import { imagePath } from "../../../Helper/misc";
 
 const sx = {
   drag_root: {
@@ -103,6 +104,25 @@ const sx = {
       },
     },
   },
+};
+
+const RenderImage = ({ selectedFile }) => {
+  if (selectedFile.blob) {
+    return (
+      <Image
+        src={selectedFile.url}
+        placeholder
+        preview={{ icons: IMAGE_PREVIEW_ACTIONS, mask: "Preview" }}
+      />
+    );
+  }
+  return (
+    <Image
+      src={imagePath(selectedFile.url)}
+      placeholder
+      preview={{ icons: IMAGE_PREVIEW_ACTIONS, mask: "Preview" }}
+    />
+  );
 };
 
 export default function ImageUploader({
@@ -204,11 +224,7 @@ export default function ImageUploader({
       />
       {isReadOnly || selectedFile.url ? (
         <>
-          <Image
-            src={selectedFile.url}
-            placeholder
-            preview={{ icons: IMAGE_PREVIEW_ACTIONS, mask: "Preview" }}
-          />
+          <RenderImage selectedFile={selectedFile} />
           {!isReadOnly && (
             <IconButton
               className="rc-remove-icon"

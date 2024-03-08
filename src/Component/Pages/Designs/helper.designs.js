@@ -2,7 +2,7 @@ import Image from "rc-image";
 import { FORM_STATE, IMAGE_PREVIEW_ACTIONS } from "../../../Helper/contant";
 import { uploadImage } from "../../../Service/design.service";
 import { DESIGN_CAD_COLUMNS } from "../../../assets/data/design-data";
-import { getEmptyRow, precision } from "../../../Helper/misc";
+import { getEmptyRow, imagePath, precision } from "../../../Helper/misc";
 
 export const form_sx = {
   form_popup: {
@@ -447,7 +447,7 @@ export const formatedTableData = (data) => {
   obj["design_id"] = data["design_id"];
   obj["final_image"] = (
     <Image
-      src={data["final_image"].url}
+      src={imagePath(data["final_image"].url)}
       placeholder
       preview={{ icons: IMAGE_PREVIEW_ACTIONS, mask: "Preview" }}
       onClick={(e) => {

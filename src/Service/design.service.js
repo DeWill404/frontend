@@ -59,3 +59,8 @@ export async function deleteDesign(designId) {
   }
   return { data: res.payload, status };
 }
+
+export async function getUplodedImage(key) {
+  let api = process.env.REACT_APP_BACKEND_URI + "/misc/images/" + key;
+  return await axios.get(api);
+}
