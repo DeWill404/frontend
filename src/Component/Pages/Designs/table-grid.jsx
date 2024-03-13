@@ -9,6 +9,7 @@ import {
   Skeleton,
 } from "@mui/material";
 import TableActionMenu from "../../Misc/Page-Misc/table-action-menu";
+import { imagePath } from "../../../Helper/misc";
 
 function DesignTableCard({ onRowClick, row, actions }) {
   return (
@@ -18,7 +19,7 @@ function DesignTableCard({ onRowClick, row, actions }) {
           <CardMedia
             component="img"
             height="190"
-            image={row["final_image"]["url"]}
+            image={imagePath(row["final_image"]["url"])}
           />
           <CardContent>
             <Box
