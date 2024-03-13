@@ -1,5 +1,6 @@
 import { Box, MenuItem } from "@mui/material";
 import Image from "rc-image";
+import { imagePath } from "../../../../Helper/misc";
 
 const sx = {
   option_root: {
@@ -37,9 +38,9 @@ export default function DesignAutoOption({ option, ...props }) {
         <strong>Design ID:</strong> {option.design_id}
       </Box>
       <Box sx={sx.image_root}>
-        <Image src={option.ref_image.url} placeholder />
-        <Image src={option.cad_image.url} placeholder />
-        <Image src={option.final_image.url} placeholder />
+        <Image src={imagePath(option.ref_image.url)} placeholder />
+        <Image src={imagePath(option.cad_image.url)} placeholder />
+        <Image src={imagePath(option.final_image.url)} placeholder />
       </Box>
     </MenuItem>
   );
