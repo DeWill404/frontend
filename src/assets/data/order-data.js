@@ -197,6 +197,10 @@ export const METAL_DATA_COLS = [
       </span>
     ),
   },
+  {
+    name: "complete_date",
+    label: "Completion Date",
+  },
 ];
 
 export const METAL_DEPT_NAMES = [
@@ -280,36 +284,42 @@ export const ORDER_DATA = {
       in_wt: { value: "10", is_admin_edit: false },
       out_wt: { value: "20", is_admin_edit: true },
       dust_wt: { value: null, is_admin_edit: false },
+      complete_date: { value: null, is_admin_edit: false },
     },
     pre_polish: {
       pcs: { value: null, is_admin_edit: false },
       in_wt: { value: "10", is_admin_edit: false },
       out_wt: { value: "20", is_admin_edit: true },
       dust_wt: { value: null, is_admin_edit: false },
+      complete_date: { value: null, is_admin_edit: false },
     },
     setting: {
       pcs: { value: null, is_admin_edit: false },
       in_wt: { value: "10", is_admin_edit: false },
       out_wt: { value: "20", is_admin_edit: true },
       dust_wt: { value: null, is_admin_edit: false },
+      complete_date: { value: "2024-10-10", is_admin_edit: true },
     },
     final_polish: {
       pcs: { value: null, is_admin_edit: false },
       in_wt: { value: "10", is_admin_edit: false },
       out_wt: { value: "20", is_admin_edit: true },
       dust_wt: { value: null, is_admin_edit: false },
+      complete_date: { value: null, is_admin_edit: false },
     },
     qc: {
       pcs: { value: null, is_admin_edit: false },
       in_wt: { value: "10", is_admin_edit: false },
       out_wt: { value: "20", is_admin_edit: true },
       dust_wt: { value: null, is_admin_edit: false },
+      complete_date: { value: "2000-01-10", is_admin_edit: false },
     },
     repair: {
       pcs: { value: null, is_admin_edit: false },
       in_wt: { value: "10", is_admin_edit: false },
       out_wt: { value: "20", is_admin_edit: true },
       dust_wt: { value: null, is_admin_edit: false },
+      complete_date: { value: null, is_admin_edit: false },
     },
   },
   [ODK.CHANGING]: [

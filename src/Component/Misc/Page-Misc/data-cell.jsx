@@ -25,7 +25,39 @@ const sx = {
   },
 };
 
-export default function DataCell({ cell, onChange }) {
+function TextCell({ isEditable, value, onChange }) {
+  return isEditable ? (
+    <InputBase sx={sx.input_style} value={value || ""} onChange={onChange} />
+  ) : (
+    <span>{value}</span>
+  );
+}
+
+function DateCell({ isEditable, value, onChange }) {
+  if (isEditable) {
+    return (
+      <InputBase
+        type="date"
+        sx={sx.input_style}
+        value={value || ""}
+        onChange={onChange}
+        inputProps={{ className: value ? "" : "date-empty" }}
+      />
+    );
+  }
+
+  let _v;
+  if (value) {
+    _v = value.split("T")[0];
+    const [y, m, d] = _v.split("-");
+    _v = [d, m, y].join("-");
+  } else {
+    _v = "";
+  }
+  return <span>{_v}</span>;
+}
+
+export default function DataCell({ name, cell, onChange }) {
   const { user } = useSelector((store) => store.auth);
   const value = cell.value;
   const isAdminEdit = cell.is_admin_edit;
@@ -38,14 +70,18 @@ export default function DataCell({ cell, onChange }) {
 
   return (
     <TableCell className={isEditable ? "editable" : ""} sx={sx.tableRowCell}>
-      {isEditable ? (
-        <InputBase
-          sx={sx.input_style}
-          value={value || ""}
+      {name.includes("date") ? (
+        <DateCell
+          isEditable={isEditable}
+          value={value}
           onChange={onValueChange}
         />
       ) : (
-        <span>{value}</span>
+        <TextCell
+          isEditable={isEditable}
+          value={value}
+          onChange={onValueChange}
+        />
       )}
       <span className="astrik">{isAdminEdit ? "*" : ""}</span>
     </TableCell>

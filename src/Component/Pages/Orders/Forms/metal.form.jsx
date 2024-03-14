@@ -97,6 +97,7 @@ export default function MetalForm({
                 <TableCell sx={table_sx.totalCell}>
                   <span>{calculateMetalWeight(tableData, "dust_wt")}</span>
                 </TableCell>
+                <TableCell sx={table_sx.totalCell}></TableCell>
               </TableRow>
             </TableBody>
           </Table>

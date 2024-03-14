@@ -73,6 +73,7 @@ export default function DataTable({ columnMap, data, setData, hideActions }) {
           {columnMap.map(({ name }) => (
             <DataCell
               key={name}
+              name={name}
               cell={row[name]}
               onChange={(value, isAdmin) =>
                 onCellChange(idx, name, value, isAdmin)
