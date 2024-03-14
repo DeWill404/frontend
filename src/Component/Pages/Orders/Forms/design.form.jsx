@@ -90,7 +90,9 @@ export default function OrderDesignForm({
   isAdmin,
 }) {
   const scrollToTop = () => {
-    document.getElementById("order-form-scroll-element").scrollIntoView();
+    document
+      .getElementById("order-form-scroll-element")
+      .scrollIntoView({ block: "end" });
   };
   const stopOverflowOrderForm = () => {
     document.getElementById("order-form").style.overflow = "hidden";
