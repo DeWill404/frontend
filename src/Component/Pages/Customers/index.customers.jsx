@@ -49,7 +49,7 @@ export default function Customers() {
     (async () => {
       if (!isLoading) {
         let search = searchedValue;
-        if (state && state.action) {
+        if (state && state.action === "order_search") {
           navigate(ROUTE.CUSTOMER.route, { state: null });
         }
 
@@ -60,7 +60,7 @@ export default function Customers() {
         }
         setLoading(false);
 
-        if (state && state.action) {
+        if (state && state.action === "order_search") {
           const data = res.data;
           if (data && data.length === 1) {
             onRowClick(data[0]._id, data);

@@ -64,7 +64,7 @@ export default function Orders() {
   const dispatch = useDispatch();
 
   const initialSearch = useMemo(() => {
-    return state && state.action.search ? state.search : "";
+    return state && state.action === "customer_search" ? state.search : "";
   }, []);
   const [searchedValue, setSearchedValue] = useState(initialSearch);
   const prevFilterRef = useRef({
@@ -89,7 +89,7 @@ export default function Orders() {
     (async () => {
       if (!isLoading) {
         let search = searchedValue;
-        if (state && state.action?.search) {
+        if (state && state.action === "customer_search") {
           navigate(ROUTE.ORDER.route, { state: null });
         }
 
@@ -101,7 +101,7 @@ export default function Orders() {
         }
         setLoading(false);
 
-        if (state && state.action?.search) {
+        if (state && state.action === "customer_search") {
           const data = res.data;
           if (data && data.length === 1) {
             onRowClick(data[0]._id, data);

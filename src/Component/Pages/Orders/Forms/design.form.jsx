@@ -1,6 +1,6 @@
 import { Box, Button, CircularProgress, Divider } from "@mui/material";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { ORDER_FORM_STEPPER } from "../../../../assets/data/order-data";
 import { getOrderDesignData, setOrderDesign } from "../helper.order";
 import {
@@ -15,7 +15,7 @@ import {
   updateDesign,
 } from "../../../../Service/design.service";
 import CustomAutoComplete from "./custom-autocomplete";
-import { FORM_STATE } from "../../../../Helper/contant";
+import { FORM_STATE, ROUTE } from "../../../../Helper/contant";
 import DesignAutoOption from "./design-autocomplete.option";
 import { StyledButton } from "../../../Misc/style-button";
 import DesignForm from "../../Designs/form.design";
@@ -106,6 +106,7 @@ export default function OrderDesignForm({
   );
 
   const { state } = useLocation();
+  const navigate = useNavigate();
   const refState = useRef(null);
   const [selectedDesign, setDesignSelection] = useState(null);
   const [designList, setDesignList] = useState([]);
@@ -201,6 +202,9 @@ export default function OrderDesignForm({
       setDesignLoading(false);
 
       setOrderDesign(setDesignSelection, data, designData, state, refState);
+      if (state && state.action === "create_order") {
+        navigate(ROUTE.ORDER.route, { state: null });
+      }
     })();
   }, []);
 
