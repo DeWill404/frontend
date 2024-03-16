@@ -142,6 +142,7 @@ export default function Login() {
               />
               <StyledButton
                 sx={sx.form_submit_btn}
+                isLoading={isLoading}
                 onClick={handleSubmit(formSubmit)}
                 type="submit"
               >
