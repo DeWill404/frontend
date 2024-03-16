@@ -44,7 +44,7 @@ export default function CADTable({ data, setData, cts, setCts }) {
               <TableCell sx={sx.totalCell} colSpan={4}>
                 <span>Total Diamond Weight</span>
               </TableCell>
-              <DataCell cell={cts} onChange={updateCts} />
+              <DataCell name="CTS" cell={cts} onChange={updateCts} />
               <TableCell sx={sx.totalCell}>
                 <span>{getTotalQuantity(data)}</span>
               </TableCell>
