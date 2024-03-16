@@ -54,7 +54,7 @@ const sx = {
     },
     "& .chk-container": {
       display: "flex",
-      alignItems: { xs: "start", sm: "center" },
+      alignItems: "center",
       "& .unused-design-chk-bx": {
         color: "black",
       },

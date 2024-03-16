@@ -27,6 +27,7 @@ const sx = {
     borderBottomLeftRadius: "20px",
     gap: "12px",
     transition: "all 0.2s linear",
+    whiteSpace: "nowrap",
   },
   item_active: {
     background: (theme) => theme.palette.grey[300],
