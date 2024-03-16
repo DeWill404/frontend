@@ -210,7 +210,7 @@ export default function Orders() {
         icon={route.icon}
         label={route.label}
         name={route.name}
-        placeholder="Search by Orders ID or Customers Name"
+        placeholder="Orders ID, Customers Name"
         onAdd={showCreateForm}
         onSearch={setSearchedValue}
         defaultSearchValue={initialSearch}

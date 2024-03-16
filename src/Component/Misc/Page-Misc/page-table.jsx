@@ -297,6 +297,7 @@ export default function PageTable({
   showCheckbox,
   selectedList,
   setSelection,
+  noDataMessage = "No Data to display",
 }) {
   const navigate = useNavigate();
 
@@ -338,6 +339,9 @@ export default function PageTable({
   };
 
   const handleRowClick = (id) => {
+    if (!onRowClick) {
+      return;
+    }
     const listener = (e) => {
       let container = document.querySelector(
         ".rc-image-preview-operations-wrapper"
@@ -422,12 +426,12 @@ export default function PageTable({
                   {visibleRows.length ? (
                     visibleRows.map((row) => (
                       <TableRow
-                        hover
+                        hover={!!onRowClick}
                         onClick={handleRowClick(row._id)}
                         role="checkbox"
                         tabIndex={-1}
                         key={row._id}
-                        sx={sx.tableRow}
+                        sx={onRowClick && sx.tableRow}
                       >
                         {showCheckbox && (
                           <TableCell padding="checkbox" sx={sx.tableRowCell}>
@@ -470,12 +474,7 @@ export default function PageTable({
                       </TableRow>
                     ))
                   ) : (
-                    <TableRow
-                      hover
-                      role="checkbox"
-                      tabIndex={-1}
-                      sx={sx.tableRow}
-                    >
+                    <TableRow tabIndex={-1}>
                       <TableCell
                         sx={sx.tableRowCell}
                         colSpan={
@@ -483,7 +482,7 @@ export default function PageTable({
                           Number(!!(tableActions && tableActions.length))
                         }
                       >
-                        <span>No Data to display</span>
+                        <span>{noDataMessage}</span>
                       </TableCell>
                     </TableRow>
                   )}

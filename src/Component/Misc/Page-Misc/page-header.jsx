@@ -1,5 +1,12 @@
-import { Box, Divider, InputBase, useMediaQuery } from "@mui/material";
-import { Add, Search } from "@mui/icons-material";
+import {
+  Box,
+  Divider,
+  IconButton,
+  InputAdornment,
+  InputBase,
+  useMediaQuery,
+} from "@mui/material";
+import { Add, Close, Search } from "@mui/icons-material";
 import { StyledButton } from "../style-button";
 import { useForm } from "react-hook-form";
 
@@ -74,9 +81,17 @@ export default function PageHeader({
   const isXS = useMediaQuery((theme) => theme.breakpoints.down("sm"));
   const isSM = useMediaQuery((theme) => theme.breakpoints.down("md"));
 
-  const { register, handleSubmit } = useForm({
+  const { register, setValue, handleSubmit } = useForm({
     defaultValues: { search: defaultSearchValue || "" },
   });
+
+  const clearSearch = () => {
+    setValue("search", "");
+    onSearch("");
+    document
+      .getElementById(`search-input-${name.replaceAll(" ", "-")}`)
+      .focus();
+  };
 
   return (
     <Box sx={sx.page_header}>
@@ -91,10 +106,18 @@ export default function PageHeader({
           onSubmit={handleSubmit((v) => onSearch(v.search))}
         >
           <InputBase
-            placeholder={placeholder || `Search ${name}s by name or email`}
+            placeholder={placeholder || `Name, Email`}
             size="small"
             sx={sx.page_search_input}
             {...register("search")}
+            inputProps={{ id: `search-input-${name.replaceAll(" ", "-")}` }}
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton size="small" onClick={clearSearch}>
+                  <Close />
+                </IconButton>
+              </InputAdornment>
+            }
           />
           <Divider orientation="vertical" />
           <StyledButton

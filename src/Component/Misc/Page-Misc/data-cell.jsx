@@ -39,7 +39,7 @@ function DateCell({ isEditable, value, onChange }) {
       <InputBase
         type="date"
         sx={sx.input_style}
-        value={value || ""}
+        value={value ? (value.includes("T") ? value.split("T")[0] : value) : ""}
         onChange={onChange}
         inputProps={{ className: value ? "" : "date-empty" }}
       />

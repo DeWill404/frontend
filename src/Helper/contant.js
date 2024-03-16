@@ -10,6 +10,7 @@ import {
   ShoppingCart,
   SwapHorizOutlined,
   SwapVertOutlined,
+  TrendingDown,
   ZoomInOutlined,
   ZoomOutOutlined,
 } from "@mui/icons-material";
@@ -71,6 +72,15 @@ export const ROUTE = {
     isVisible: true,
     name: "Order",
   },
+  Loss: {
+    icon: <TrendingDown />,
+    label: "Monthy Loss",
+    route: "/loss",
+    isProtected: true,
+    isVisible: true,
+    isAdminOnly: true,
+    name: "Monthy Loss",
+  },
 };
 
 export const REGEX = {
@@ -105,6 +115,8 @@ export const API_ROUTE = {
   ORDDER_UPDATE: "/orders/update",
   ORDDER_BULK_UPDATE: "/orders/bulk_update",
   ORDDER_REMOVE: "/orders/remove",
+  ORDDER_LOSS_DATA: "/orders/loss",
+  LOSSES: "/losses",
 };
 
 export const BROWSER_STORAGE_KEY = {

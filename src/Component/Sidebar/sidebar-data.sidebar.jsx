@@ -39,6 +39,7 @@ export default function SidebarData() {
   const navigate = useNavigate();
 
   const { isSidebarOpen } = useSelector((store) => store.misc);
+  const { user } = useSelector((store) => store.auth);
   const dispatch = useDispatch();
 
   const onLinkClick = (e, route) => {
@@ -53,7 +54,7 @@ export default function SidebarData() {
   return (
     <List sx={sx.sidebar_container}>
       {Object.values(ROUTE)
-        .filter((o) => o.isVisible)
+        .filter((o) => o.isVisible && (user.is_admin || !o.isAdminOnly))
         .map((option, idx) => (
           <ListItemButton
             onClick={(e) => onLinkClick(e, option.route)}

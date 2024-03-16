@@ -179,7 +179,7 @@ export default function Designs() {
         icon={route.icon}
         label={route.label}
         name={route.name}
-        placeholder="Search Designs by ID"
+        placeholder="Design ID"
         onSearch={setSearchedValue}
         onAdd={showCreateForm}
       />

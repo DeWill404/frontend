@@ -18,6 +18,7 @@ import ResetPassword from "./Component/Pages/Reset-Password/index.reset-password
 import { DialogWrapper } from "./Component/Misc/Dialog/index.dialog";
 
 import "react-toastify/dist/ReactToastify.css";
+import Loss from "./Component/Pages/Loss/index.loss";
 
 const W = (children) => (
   <>
@@ -47,6 +48,10 @@ const router = createBrowserRouter([
         path: ROUTE.ORDER.route,
         element: <Orders />,
       },
+      {
+        path: ROUTE.Loss.route,
+        element: <Loss />,
+      },
     ],
   },
   { path: ROUTE.LOGIN.route, element: W(<Login />) },
@@ -56,7 +61,18 @@ const router = createBrowserRouter([
   },
 ]);
 
-const theme = createTheme();
+const theme = createTheme({
+  breakpoints: {
+    values: {
+      xs: 0,
+      s: 430,
+      sm: 600,
+      md: 900,
+      lg: 1200,
+      xl: 1536,
+    },
+  },
+});
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

@@ -48,3 +48,10 @@ export async function updateOrderCustomerName(orderIds, name) {
   const status = resStatusSerializer(res);
   return { data: res.payload, status };
 }
+
+export async function getLossData(search, params = "") {
+  let api = `${API_ROUTE.ORDDER_LOSS_DATA}?search=${search}` + params;
+  const res = await axios.get(api);
+  const status = resStatusSerializer(res);
+  return { data: res.payload, status };
+}
