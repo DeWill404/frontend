@@ -98,25 +98,31 @@ export default function OrderForm({
       setLoading(false);
     }
   };
+  const validateCreateFormStatus = () => {
+    if (showForm !== FORM_STATE.CREATE) {
+      return true;
+    }
+    const jobsheetData = getJobSheetFromStorage();
+    const designData = getOrderDesigntFromStorage();
+    if (!jobsheetData || !designData) {
+      return false;
+    }
+    return true;
+  };
   const submitHandler = async (e) => {
     e.stopPropagation();
-    if (showForm !== FORM_STATE.CREATE) {
-      if (stepValidator) {
-        let isValid = await stepValidator();
-        if (isValid) {
-          const currData = getSerializedFromStorage();
-          const orderStatus = getOrderStatusFromStorage();
-          currData["order_status"] = orderStatus;
-          onSubmitClick(currData);
-        } else {
-          toast.error("Please fill all required values");
-        }
+    if (stepValidator) {
+      let isValid = await stepValidator();
+      if (!isValid) {
+        toast.error("Please fill all required values");
+      } else if (!validateCreateFormStatus()) {
+        toast.error("Please complete Jobsheet form & select a Design first");
+      } else {
+        const currData = getSerializedFromStorage();
+        const orderStatus = getOrderStatusFromStorage();
+        currData["order_status"] = orderStatus;
+        onSubmitClick(currData);
       }
-    } else {
-      const currData = getSerializedFromStorage();
-      const orderStatus = getOrderStatusFromStorage();
-      currData["order_status"] = orderStatus;
-      onSubmitClick(currData);
     }
   };
 
@@ -147,19 +153,6 @@ export default function OrderForm({
     if (stepValidator) {
       const isValid = await stepValidator();
       if (isValid) {
-        if (showForm === FORM_STATE.CREATE) {
-          const jobsheetData = getJobSheetFromStorage();
-          const designData = getOrderDesigntFromStorage();
-          if (
-            (!jobsheetData || !designData) &&
-            updatedStep === ORDER_FORM_STEPPER.length - 1
-          ) {
-            toast.error(
-              "Please complete Jobsheet form & select a Design first"
-            );
-            return;
-          }
-        }
         setActiveStep(updatedStep);
       }
     }
@@ -178,16 +171,6 @@ export default function OrderForm({
     e.stopPropagation();
     setResetDialog(true);
   };
-
-  const showSubmitBtn = useCallback(() => {
-    if (
-      showForm === FORM_STATE.CREATE &&
-      activeStep === ORDER_FORM_STEPPER.length - 1
-    ) {
-      return true;
-    }
-    return showForm !== FORM_STATE.CREATE;
-  }, [showForm, activeStep]);
 
   return (
     <Slide direction="up" unmountOnExit in={showForm !== FORM_STATE.CLOSE}>
@@ -244,11 +227,9 @@ export default function OrderForm({
           >
             Cancel
           </Button>
-          {showSubmitBtn() && (
-            <StyledButton isLoading={isLoading} onClick={submitHandler}>
-              {showForm === FORM_STATE.CREATE ? "Save" : "Update"}
-            </StyledButton>
-          )}
+          <StyledButton isLoading={isLoading} onClick={submitHandler}>
+            {showForm === FORM_STATE.CREATE ? "Save" : "Update"}
+          </StyledButton>
         </Box>
 
         <CustomDialog

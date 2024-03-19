@@ -86,6 +86,9 @@ export default function Login() {
   useEffect(() => {
     const root = document.getElementById("root");
     root.setAttribute("style", "max-width: 100%");
+    return () => {
+      root.setAttribute("style", "max-width: 1400px");
+    };
   }, []);
 
   const formSubmit = async (payload) => {
