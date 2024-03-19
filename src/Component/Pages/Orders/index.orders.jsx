@@ -146,8 +146,10 @@ export default function Orders() {
     if (showForm === FORM_STATE.CREATE) {
       const res = await createOrder(payload);
       if (res.status) {
-        closeForm();
-        reload();
+        isUpdated.current = true;
+        setFormData(res.data);
+        setDataList((p) => [...p, res.data]);
+        setFormVisiblity(user.is_admin ? FORM_STATE.UPDATE : FORM_STATE.READ);
       }
     } else {
       const found = dataList.find((d) => d._id === formData._id);

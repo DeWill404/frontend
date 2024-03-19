@@ -10,12 +10,17 @@ import {
   orderFormDataCleanup,
   serializeCurrentOrderData,
 } from "./helper.order";
-import { ORDER_FORM_STEPPER } from "../../../assets/data/order-data";
+import {
+  ORDER_FORM_STEPPER,
+  ORDER_STATUS,
+} from "../../../assets/data/order-data";
 import {
   getJobSheetFromStorage,
   getOrderDesigntFromStorage,
   getOrderStatusFromStorage,
   getSerializedFromStorage,
+  saveOrderStatusToStorage,
+  saveSerializedDataToStorage,
 } from "../../../Helper/browser-storage";
 import { toast } from "react-toastify";
 
@@ -95,6 +100,9 @@ export default function OrderForm({
     if (!isLoading) {
       setLoading(true);
       await formSubmit(payload);
+      if (showForm === FORM_STATE.CREATE) {
+        setActiveStep(ORDER_FORM_STEPPER.length - 1);
+      }
       setLoading(false);
     }
   };
@@ -106,6 +114,14 @@ export default function OrderForm({
     const designData = getOrderDesigntFromStorage();
     if (!jobsheetData || !designData) {
       return false;
+    }
+    if (activeStep !== ORDER_FORM_STEPPER.length - 1) {
+      const orderData = serializeCurrentOrderData(FORM_STATE.CREATE, {});
+      saveSerializedDataToStorage(orderData);
+      const cachedStatus = getOrderStatusFromStorage();
+      if (!cachedStatus) {
+        saveOrderStatusToStorage(ORDER_STATUS[0]);
+      }
     }
     return true;
   };
@@ -150,6 +166,10 @@ export default function OrderForm({
   const [activeStep, setActiveStep] = useState(defaultStep);
   const [stepValidator, setStepValidator] = useState(null);
   const onStepChange = async (updatedStep) => {
+    const isNumber = !isNaN(parseInt(updatedStep));
+    if (isNumber && updatedStep === activeStep) {
+      return;
+    }
     if (stepValidator) {
       const isValid = await stepValidator();
       if (isValid) {
