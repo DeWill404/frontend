@@ -193,6 +193,8 @@ export const getDefaultProperties = (formState, formData, isAdmin) => {
       metal: { value: null, is_admin_edit: false, is_editable: true },
       kt: { value: null, is_admin_edit: false, is_editable: true },
       rhodium: { value: null, is_admin_edit: false, is_editable: true },
+      product_type: { value: null, is_admin_edit: false, is_editable: true },
+      product_size: { value: null, is_admin_edit: false, is_editable: true },
     };
   }
   return {
@@ -210,6 +212,16 @@ export const getDefaultProperties = (formState, formData, isAdmin) => {
       value: formData["rhodium"].value,
       is_admin_edit: formData["rhodium"].is_admin_edit,
       is_editable: isAdmin || formData["rhodium"].value === null,
+    },
+    product_type: {
+      value: formData["product_type"].value,
+      is_admin_edit: formData["product_type"].is_admin_edit,
+      is_editable: isAdmin || formData["product_type"].value === null,
+    },
+    product_size: {
+      value: formData["product_size"].value,
+      is_admin_edit: formData["product_size"].is_admin_edit,
+      is_editable: isAdmin || formData["product_size"].value === null,
     },
   };
 };
@@ -369,6 +381,14 @@ export const processDesignPropties = (data) => {
     rhodium: {
       value: data["rhodium"].value?.trim() || null,
       is_admin_edit: data["rhodium"].is_admin_edit,
+    },
+    product_type: {
+      value: data["product_type"].value?.trim() || null,
+      is_admin_edit: data["product_type"].is_admin_edit,
+    },
+    product_size: {
+      value: data["product_size"].value?.trim() || null,
+      is_admin_edit: data["product_size"].is_admin_edit,
     },
   };
 };

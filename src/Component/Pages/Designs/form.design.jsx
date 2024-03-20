@@ -218,6 +218,35 @@ export default function DesignForm({
                   <MenuItem value="Rose">Rose</MenuItem>
                 </TextField>
               </Grid>
+              <Grid item xs={12} sm={6} md={4}>
+                <TextField
+                  select
+                  name={JOB_SHEET_KEYS[3]}
+                  label={l("Product Type", "product_type")}
+                  value={v("product_type")}
+                  onChange={ch("product_type")}
+                  placeholder="Select Product Type"
+                  size="small"
+                  fullWidth
+                  {...getReadOnlyProps(iro("product_type"))}
+                >
+                  <MenuItem value="Necklace">Necklace</MenuItem>
+                  <MenuItem value="Pendant">Pendant</MenuItem>
+                  <MenuItem value="Bracelet">Bracelet</MenuItem>
+                </TextField>
+              </Grid>
+              <Grid item xs={12} sm={6} md={4}>
+                <TextField
+                  name={JOB_SHEET_KEYS[4]}
+                  label={l("Product Size", "product_size")}
+                  value={v("product_size")}
+                  onChange={ch("product_size")}
+                  placeholder="Enter Product size here"
+                  size="small"
+                  fullWidth
+                  {...getReadOnlyProps(iro("product_size"))}
+                />
+              </Grid>
             </Grid>
           </Box>
           <Box marginTop="-10px">

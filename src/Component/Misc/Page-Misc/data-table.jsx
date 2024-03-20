@@ -52,7 +52,13 @@ const getRowActions = (columnMap, data, setData) => {
   return actions;
 };
 
-export default function DataTable({ columnMap, data, setData, hideActions }) {
+export default function DataTable({
+  columnMap,
+  data,
+  setData,
+  hideActions,
+  onChange,
+}) {
   const onCellChange = (idx, name, value, isAdmin) => {
     setData((_rows) =>
       _rows.map((_row, _idx) => {
@@ -64,6 +70,7 @@ export default function DataTable({ columnMap, data, setData, hideActions }) {
         return _row;
       })
     );
+    onChange?.(idx, name, value, isAdmin);
   };
 
   return (

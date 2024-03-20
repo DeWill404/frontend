@@ -62,6 +62,27 @@ export default function MetalForm({
     });
   }, [tableData]);
 
+  const onDataChange = (idx, name, value, isAdmin) => {
+    if (name === "in_wt" || name === "out_wt") {
+      setTableData((_rows) =>
+        _rows.map((_row, _idx) => {
+          if (_idx === idx) {
+            const in_wt = isNaN(parseFloat(_row["in_wt"].value))
+              ? 0
+              : parseFloat(_row["in_wt"].value);
+            const out_wt = isNaN(parseFloat(_row["out_wt"].value))
+              ? 0
+              : parseFloat(_row["out_wt"].value);
+            _row["dust_wt"].value = String(in_wt - out_wt || "");
+            _row["dust_wt"].is_admin_edit = isAdmin;
+            return { ..._row };
+          }
+          return _row;
+        })
+      );
+    }
+  };
+
   return (
     <Box sx={sx.form_root}>
       <h3>{ORDER_FORM_STEPPER[METAL_FORM_INDEX][1]}</h3>
@@ -82,6 +103,7 @@ export default function MetalForm({
                 columnMap={METAL_DATA_COLS}
                 data={tableData}
                 setData={setTableData}
+                onChange={onDataChange}
                 hideActions
               />
               <TableRow sx={table_sx.tableRow}>
