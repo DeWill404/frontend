@@ -243,7 +243,9 @@ export const getDefaultCadData = (formState, formData, isAdmin) => {
     const rowObj = {};
     const cellNames = DESIGN_CAD_COLUMNS;
     for (const { name } of cellNames) {
-      const is_editable = isAdmin || row[name].value === null;
+      const is_editable =
+        (isAdmin || row[name].value === null) &&
+        formState !== FORM_STATE.READ_ONLY;
       rowObj[name] = { ...row[name], is_editable };
     }
     return rowObj;
@@ -254,7 +256,9 @@ export const getDefaultCadCts = (formState, formData, isAdmin) => {
   if (formState === FORM_STATE.CREATE) {
     return { value: null, is_admin_edit: false, is_editable: true };
   }
-  const is_editable = isAdmin || formData[DIT.CTS].value === null;
+  const is_editable =
+    (isAdmin || formData[DIT.CTS].value === null) &&
+    formState !== FORM_STATE.READ_ONLY;
   return { ...formData[DIT.CTS], is_editable };
 };
 

@@ -42,19 +42,19 @@ export const ORDER_FORM_STEPPER = [
       />
     ),
   ],
-  [
-    <Diamond />,
-    "Diamond Details",
-    (formState, formData, setValidator, isAdmin, resetDefault) => (
-      <DiamondDataForm
-        formState={formState}
-        formData={formData}
-        setValidator={setValidator}
-        isAdmin={isAdmin}
-        resetDefault={resetDefault}
-      />
-    ),
-  ],
+  // [
+  //   <Diamond />,
+  //   "Diamond Details",
+  //   (formState, formData, setValidator, isAdmin, resetDefault) => (
+  //     <DiamondDataForm
+  //       formState={formState}
+  //       formData={formData}
+  //       setValidator={setValidator}
+  //       isAdmin={isAdmin}
+  //       resetDefault={resetDefault}
+  //     />
+  //   ),
+  // ],
   [
     <FitnessCenter />,
     "Metal Details",

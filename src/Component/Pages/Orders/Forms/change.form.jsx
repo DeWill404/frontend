@@ -25,7 +25,7 @@ import { STX } from "../../../../Helper/misc";
 import { cad_table_sx as table_sx } from "../../Designs/helper.designs";
 import { DataTable } from "../../../Misc/Page-Misc";
 
-const CHANGING_DIA_FORM_INDEX = 4;
+const CHANGING_DIA_FORM_INDEX = 3;
 
 const sx = {
   form_root: {

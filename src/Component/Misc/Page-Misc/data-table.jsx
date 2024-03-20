@@ -78,7 +78,7 @@ export default function DataTable({
   return (
     <>
       {data.map((row, idx) => (
-        <TableRow hover key={idx}>
+        <TableRow key={idx}>
           {columnMap.map(({ name }) => (
             <DataCell
               key={name}

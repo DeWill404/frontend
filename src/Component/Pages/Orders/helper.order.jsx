@@ -22,6 +22,7 @@ import {
 } from "../../../assets/data/order-data";
 import { getEmptyRow, precision } from "../../../Helper/misc";
 import { MenuItem, TextField } from "@mui/material";
+import { getTotalWeight } from "../Designs/helper.designs";
 
 export const showFilterApplied = (data) =>
   Object.keys(data).some((d) => !!data[d]?.trim());
@@ -126,7 +127,6 @@ export const serializeCurrentOrderData = (formState, formData) => {
 
   let designData = getOrderDesigntFromStorage();
   if (designData) {
-    designData = { design_id: designData.design_id };
     currentOrderData[ODK.DESIGN] = designData;
   } else {
     currentOrderData[ODK.DESIGN] = formData[ODK.DESIGN];
@@ -224,7 +224,7 @@ export const calculateGrossWeight = (data, updateDetails = {}) => {
       : calculateExtraWeight(data[ODK.EXTRA])) +
     (updateDetails.type === "diamond"
       ? updateDetails.weight
-      : calculateDiamondWeight(data[ODK.DIAMOND])) +
+      : getTotalWeight(data[ODK.DESIGN]?.["cad_data"] || [])) +
     (updateDetails.type === "metal"
       ? updateDetails.weight
       : calculateMetalWeight(data[ODK.METAL], "out_wt"))

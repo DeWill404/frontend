@@ -1,5 +1,5 @@
 import { Box, Divider, Grid, MenuItem, TextField } from "@mui/material";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import JobSheetForm from "./job-sheet.form";
 import OrderDesignForm from "./design.form";
 import DiamondDataForm from "./diamond.form";
@@ -7,14 +7,15 @@ import MetalForm from "./metal.form";
 import ChangingDiamondDataForm from "./change.form";
 import ExtraMetalForm from "./extra.form";
 import { FORM_STATE } from "../../../../Helper/contant";
-import FocusTrap from "@mui/material/Unstable_TrapFocus";
 import {
   calculateGrossWeight,
   getReadOnlyProps,
   serializeCurrentOrderData,
 } from "../helper.order";
 import {
+  getOrderGrossWeightFromStorage,
   getOrderStatusFromStorage,
+  saveOrderGrossWeightToStorage,
   saveOrderStatusToStorage,
   saveSerializedDataToStorage,
 } from "../../../../Helper/browser-storage";
@@ -57,8 +58,18 @@ export default function FormSummary({ ...props }) {
       props.formData
     );
     saveSerializedDataToStorage(orderData);
-    const grossWeight = calculateGrossWeight(orderData);
-    setGrossWeight(grossWeight);
+
+    let currWeight;
+    const cachedWeight = getOrderGrossWeightFromStorage();
+    if (cachedWeight) {
+      currWeight = cachedWeight;
+    } else if (props.formState !== FORM_STATE.CREATE) {
+      currWeight = props.formData.gross_weight;
+    } else {
+      currWeight = calculateGrossWeight(orderData);
+    }
+    setGrossWeight(currWeight);
+    saveOrderGrossWeightToStorage(currWeight);
 
     let currStatus;
     const cachedStatus = getOrderStatusFromStorage();
@@ -79,7 +90,9 @@ export default function FormSummary({ ...props }) {
         props.formState,
         props.formData
       );
-      setGrossWeight(calculateGrossWeight(orderData, weightDetails));
+      const updatedWeight = calculateGrossWeight(orderData, weightDetails);
+      setGrossWeight(updatedWeight);
+      saveOrderGrossWeightToStorage(updatedWeight);
       dispatch(grossWeightUpdated());
     }
   }, [weightUpdated]);
@@ -91,7 +104,7 @@ export default function FormSummary({ ...props }) {
       });
       document
         .getElementById("order-form-scroll-element")
-        .scrollIntoView({ block: "start" });
+        .scrollIntoView({ block: "end" });
     }
   }, []);
 
@@ -161,17 +174,17 @@ export default function FormSummary({ ...props }) {
           <JobSheetForm {...props} setValidator={setInternalValidator(0)} />
           <Divider sx={sx.divider} />
           <OrderDesignForm {...props} setValidator={setInternalValidator(1)} />
+          {/* <Divider sx={sx.divider} />
+          <DiamondDataForm {...props} setValidator={setInternalValidator(2)} /> */}
           <Divider sx={sx.divider} />
-          <DiamondDataForm {...props} setValidator={setInternalValidator(2)} />
-          <Divider sx={sx.divider} />
-          <MetalForm {...props} setValidator={setInternalValidator(3)} />
+          <MetalForm {...props} setValidator={setInternalValidator(2)} />
           <Divider sx={sx.divider} />
           <ChangingDiamondDataForm
             {...props}
-            setValidator={setInternalValidator(4)}
+            setValidator={setInternalValidator(3)}
           />
           <Divider sx={sx.divider} />
-          <ExtraMetalForm {...props} setValidator={setInternalValidator(5)} />
+          <ExtraMetalForm {...props} setValidator={setInternalValidator(4)} />
         </Box>
       )}
     </Box>

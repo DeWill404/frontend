@@ -149,6 +149,19 @@ export function getOrderStatusFromStorage() {
   return data ? JSON.parse(data) : null;
 }
 
+export function saveOrderGrossWeightToStorage(data) {
+  if (data) {
+    sessionStorage.setItem(
+      BROWSER_STORAGE_KEY.ORDER_GROSS_WEIGHT,
+      JSON.stringify(data)
+    );
+  }
+}
+export function getOrderGrossWeightFromStorage() {
+  const data = sessionStorage.getItem(BROWSER_STORAGE_KEY.ORDER_GROSS_WEIGHT);
+  return data ? JSON.parse(data) : null;
+}
+
 export function saveSerializedDataToStorage(data) {
   if (data) {
     sessionStorage.setItem(

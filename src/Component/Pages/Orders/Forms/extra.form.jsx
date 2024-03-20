@@ -17,7 +17,7 @@ import { precision } from "../../../../Helper/misc";
 import { useDispatch } from "react-redux";
 import { updateGrossWeight } from "../../../../Store/order.slice";
 
-const EXTRA_METAL_FORM_INDEX = 5;
+const EXTRA_METAL_FORM_INDEX = 4;
 
 const sx = {
   form_root: {

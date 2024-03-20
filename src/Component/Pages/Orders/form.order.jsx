@@ -7,6 +7,7 @@ import ActiveForm from "./Forms/active-form";
 import FormNavigation from "./Forms/form-navigation";
 import { CustomDialog } from "../../Misc/custom-dialog";
 import {
+  calculateGrossWeight,
   orderFormDataCleanup,
   serializeCurrentOrderData,
 } from "./helper.order";
@@ -17,8 +18,10 @@ import {
 import {
   getJobSheetFromStorage,
   getOrderDesigntFromStorage,
+  getOrderGrossWeightFromStorage,
   getOrderStatusFromStorage,
   getSerializedFromStorage,
+  saveOrderGrossWeightToStorage,
   saveOrderStatusToStorage,
   saveSerializedDataToStorage,
 } from "../../../Helper/browser-storage";
@@ -122,6 +125,10 @@ export default function OrderForm({
       if (!cachedStatus) {
         saveOrderStatusToStorage(ORDER_STATUS[0]);
       }
+      const cachedWeight = getOrderGrossWeightFromStorage();
+      if (!cachedWeight) {
+        saveOrderGrossWeightToStorage(calculateGrossWeight(orderData));
+      }
     }
     return true;
   };
@@ -136,7 +143,9 @@ export default function OrderForm({
       } else {
         const currData = getSerializedFromStorage();
         const orderStatus = getOrderStatusFromStorage();
+        const grossWeight = getOrderGrossWeightFromStorage();
         currData["order_status"] = orderStatus;
+        currData["gross_weight"] = grossWeight;
         onSubmitClick(currData);
       }
     }

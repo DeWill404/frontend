@@ -27,7 +27,7 @@ import { DataTable } from "../../../Misc/Page-Misc";
 import { useDispatch } from "react-redux";
 import { updateGrossWeight } from "../../../../Store/order.slice";
 
-const METAL_FORM_INDEX = 3;
+const METAL_FORM_INDEX = 2;
 
 const sx = {
   form_root: {

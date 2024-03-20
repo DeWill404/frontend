@@ -18,12 +18,13 @@ import CustomAutoComplete from "./custom-autocomplete";
 import { FORM_STATE, ROUTE } from "../../../../Helper/contant";
 import DesignAutoOption from "./design-autocomplete.option";
 import { StyledButton } from "../../../Misc/style-button";
-import DesignForm from "../../Designs/form.design";
-import { Add, Visibility } from "@mui/icons-material";
+import DesignFormWrapper from "../../Designs/form-wrapper.design";
+import { Add, Edit } from "@mui/icons-material";
 import _ from "lodash";
 import { toast } from "react-toastify";
 import { CustomDialog } from "../../../Misc/custom-dialog";
 import { mapFilterToParams } from "../../Designs/helper.designs";
+import DesignForm from "../../Designs/form.design";
 
 const ORDER_DESIGN_FORM_INDEX = 1;
 
@@ -66,7 +67,7 @@ const sx = {
     },
   },
   form_section: {
-    padding: { xs: "20px", md: "30px" },
+    padding: "20px",
     transition: "all 0.2s linear",
     "& .section-title": {
       marginBottom: "16px",
@@ -268,8 +269,8 @@ export default function OrderDesignForm({
                   className="preview-btn"
                   onClick={() => !loadingDesign && openUpdate()}
                 >
-                  <span> Preview</span>
-                  <Visibility />
+                  <span> Edit</span>
+                  <Edit />
                 </StyledButton>
               )}
             </Box>
@@ -287,7 +288,7 @@ export default function OrderDesignForm({
             </Box>
           )}
           {isCreateActive && (
-            <DesignForm
+            <DesignFormWrapper
               showForm={FORM_STATE.CREATE}
               formData={null}
               closeForm={closeCreate}
@@ -295,7 +296,7 @@ export default function OrderDesignForm({
             />
           )}
           {isUpdateActive && (
-            <DesignForm
+            <DesignFormWrapper
               showForm={isAdmin ? FORM_STATE.UPDATE : FORM_STATE.READ}
               closeForm={closeUpdate}
               formData={refState.current}
@@ -303,23 +304,30 @@ export default function OrderDesignForm({
             />
           )}
         </Box>
-        {formState === FORM_STATE.CREATE &&
-          (refState.current || selectedDesign) && (
-            <>
-              <Divider />
-              <Box sx={sx.form_section}>
-                <Button
-                  size="small"
-                  variant="outlined"
-                  color="inherit"
-                  sx={{ textTransform: "none" }}
-                  onClick={openResetDialog}
-                >
-                  Clear Selection
-                </Button>
-              </Box>
-            </>
-          )}
+        {(refState.current || selectedDesign) && (
+          <>
+            <DesignForm
+              showForm={FORM_STATE.READ_ONLY}
+              formData={refState.current}
+            />
+            {formState === FORM_STATE.CREATE && (
+              <>
+                <Divider />
+                <Box sx={sx.form_section}>
+                  <Button
+                    size="small"
+                    variant="outlined"
+                    color="inherit"
+                    sx={{ textTransform: "none" }}
+                    onClick={openResetDialog}
+                  >
+                    Clear Selection
+                  </Button>
+                </Box>
+              </>
+            )}
+          </>
+        )}
       </Box>
       <CustomDialog
         open={resetDialog}

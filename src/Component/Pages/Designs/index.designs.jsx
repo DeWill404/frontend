@@ -27,7 +27,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import _ from "lodash";
 import { useNavigate } from "react-router-dom";
-import DesignForm from "./form.design";
+import DesignFormWrapper from "./form-wrapper.design";
 import { TableChart, Window } from "@mui/icons-material";
 import FilterDesign from "./filter.designs";
 import {
@@ -228,7 +228,7 @@ export default function Designs() {
       )}
 
       {showForm !== FORM_STATE.CLOSE && (
-        <DesignForm
+        <DesignFormWrapper
           showForm={showForm}
           formData={formData}
           closeForm={closeForm}

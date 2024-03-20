@@ -131,6 +131,7 @@ export const BROWSER_STORAGE_KEY = {
   CHANGE_DIA_DATA: "order-form-change_dia_data",
   EXTRA_METAL_DATA: "order-form-extra_metal_data",
   ORDER_STATUS_DATA: "order-form-order_status_data",
+  ORDER_GROSS_WEIGHT: "order-form-order_gross_weight",
   SERIALIZE_ORDER_DATA: "order-form-serialize_order_data",
 };
 
@@ -145,6 +146,7 @@ export const FORM_STATE = {
   READ: 1,
   CREATE: 2,
   UPDATE: 3,
+  READ_ONLY: 4,
 };
 
 export const DELETE_STATE = {
