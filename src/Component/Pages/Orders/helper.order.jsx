@@ -217,11 +217,17 @@ export const serializeCurrentOrderData = (formState, formData) => {
   return currentOrderData;
 };
 
-export const calculateGrossWeight = (data) => {
+export const calculateGrossWeight = (data, updateDetails = {}) => {
   return (
-    calculateExtraWeight(data[ODK.EXTRA]) +
-    calculateDiamondWeight(data[ODK.DIAMOND]) +
-    calculateMetalWeight(data[ODK.METAL], "out_wt")
+    (updateDetails.type === "extra"
+      ? updateDetails.weight
+      : calculateExtraWeight(data[ODK.EXTRA])) +
+    (updateDetails.type === "diamond"
+      ? updateDetails.weight
+      : calculateDiamondWeight(data[ODK.DIAMOND])) +
+    (updateDetails.type === "metal"
+      ? updateDetails.weight
+      : calculateMetalWeight(data[ODK.METAL], "out_wt"))
   );
 };
 

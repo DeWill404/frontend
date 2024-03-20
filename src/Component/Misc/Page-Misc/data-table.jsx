@@ -13,7 +13,7 @@ const sx = {
   },
 };
 
-const getRowActions = (columnMap, data, setData) => {
+const getRowActions = (columnMap, data, setData, onRowDelete) => {
   const createRow = () => getEmptyRow(columnMap, true);
 
   const onAddAbove = (idx) => {
@@ -40,6 +40,7 @@ const getRowActions = (columnMap, data, setData) => {
   };
   const onDelete = (idx) => {
     setData((prev) => prev.filter((_, _idx) => idx !== _idx));
+    onRowDelete?.(idx);
   };
 
   const actions = [
@@ -58,6 +59,7 @@ export default function DataTable({
   setData,
   hideActions,
   onChange,
+  onRowDelete,
 }) {
   const onCellChange = (idx, name, value, isAdmin) => {
     setData((_rows) =>
@@ -91,7 +93,7 @@ export default function DataTable({
             <TableCell sx={sx.actionCell}>
               <TableActionMenu
                 id={idx}
-                actions={getRowActions(columnMap, data, setData)}
+                actions={getRowActions(columnMap, data, setData, onRowDelete)}
               />
             </TableCell>
           )}

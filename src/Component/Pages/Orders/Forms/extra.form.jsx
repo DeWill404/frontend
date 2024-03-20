@@ -13,6 +13,9 @@ import {
   EXTRA_METAL_KEYS,
   ORDER_FORM_STEPPER,
 } from "../../../../assets/data/order-data";
+import { precision } from "../../../../Helper/misc";
+import { useDispatch } from "react-redux";
+import { updateGrossWeight } from "../../../../Store/order.slice";
 
 const EXTRA_METAL_FORM_INDEX = 5;
 
@@ -35,6 +38,8 @@ export default function ExtraMetalForm({
   isAdmin,
   resetDefault,
 }) {
+  const dispatch = useDispatch();
+
   const cachedData = useMemo(getExtraMetalFromStorage, [resetDefault]);
   const [currData, setCurrData] = useState({});
   const dataCopy = useRef(null);
@@ -74,6 +79,18 @@ export default function ExtraMetalForm({
     });
   };
   const iro = (idx) => !currData?.[EXTRA_METAL_KEYS[idx]]?.is_editable;
+
+  useEffect(() => {
+    let totalWeight = 0;
+    EXTRA_METAL_KEYS.forEach((key) => {
+      const value = parseFloat(currData?.[key]?.value);
+      if (!isNaN(value)) {
+        totalWeight += value;
+      }
+    });
+    totalWeight = precision(totalWeight);
+    dispatch(updateGrossWeight({ type: "extra", weight: totalWeight }));
+  }, [currData]);
 
   return (
     <Box sx={sx.form_root}>

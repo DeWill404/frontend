@@ -22,8 +22,10 @@ import {
   ORDER_FORM_STEPPER,
 } from "../../../../assets/data/order-data";
 import { cad_table_sx as table_sx } from "../../Designs/helper.designs";
-import { STX } from "../../../../Helper/misc";
+import { STX, precision } from "../../../../Helper/misc";
 import { DataTable } from "../../../Misc/Page-Misc";
+import { useDispatch } from "react-redux";
+import { updateGrossWeight } from "../../../../Store/order.slice";
 
 const METAL_FORM_INDEX = 3;
 
@@ -47,6 +49,8 @@ export default function MetalForm({
   isAdmin,
   resetDefault,
 }) {
+  const dispatch = useDispatch();
+
   const cachedData = useMemo(getMetalDataFromStorage, [resetDefault]);
   const [tableData, setTableData] = useState([]);
 
@@ -62,24 +66,54 @@ export default function MetalForm({
     });
   }, [tableData]);
 
-  const onDataChange = (idx, name, value, isAdmin) => {
+  const updateDustWt = (idx) => {
+    setTableData((_rows) =>
+      _rows.map((_row, _idx) => {
+        if (_idx === idx) {
+          const in_wt = isNaN(parseFloat(_row["in_wt"].value))
+            ? 0
+            : parseFloat(_row["in_wt"].value);
+          const out_wt = isNaN(parseFloat(_row["out_wt"].value))
+            ? 0
+            : parseFloat(_row["out_wt"].value);
+          _row["dust_wt"].value = String(in_wt - out_wt);
+          _row["dust_wt"].is_admin_edit = isAdmin;
+          return { ..._row };
+        }
+        return _row;
+      })
+    );
+  };
+
+  const updateGrossWt = (idx, value) => {
+    let totalWeight = 0;
+    if (Array.isArray(tableData)) {
+      tableData.forEach((row, _idx) => {
+        const _value = parseFloat(idx === _idx ? value : row["out_wt"].value);
+        if (!isNaN(_value)) {
+          totalWeight += _value;
+        }
+      });
+    } else {
+      Object.keys(tableData).forEach((rowKey, _idx) => {
+        const _value = parseFloat(
+          idx === _idx ? value : tableData[rowKey]["out_wt"].value
+        );
+        if (!isNaN(_value)) {
+          totalWeight += _value;
+        }
+      });
+    }
+    totalWeight = precision(totalWeight);
+    dispatch(updateGrossWeight({ type: "metal", weight: totalWeight }));
+  };
+
+  const onDataChange = (idx, name, value) => {
     if (name === "in_wt" || name === "out_wt") {
-      setTableData((_rows) =>
-        _rows.map((_row, _idx) => {
-          if (_idx === idx) {
-            const in_wt = isNaN(parseFloat(_row["in_wt"].value))
-              ? 0
-              : parseFloat(_row["in_wt"].value);
-            const out_wt = isNaN(parseFloat(_row["out_wt"].value))
-              ? 0
-              : parseFloat(_row["out_wt"].value);
-            _row["dust_wt"].value = String(in_wt - out_wt || "");
-            _row["dust_wt"].is_admin_edit = isAdmin;
-            return { ..._row };
-          }
-          return _row;
-        })
-      );
+      updateDustWt(idx);
+      if (name === "out_wt") {
+        updateGrossWt(idx, value);
+      }
     }
   };
 

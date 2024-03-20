@@ -22,6 +22,8 @@ import {
   ORDER_FORM_STEPPER,
   ORDER_STATUS,
 } from "../../../../assets/data/order-data";
+import { useDispatch, useSelector } from "react-redux";
+import { grossWeightUpdated } from "../../../../Store/order.slice";
 
 const sx = {
   form_root: {
@@ -40,6 +42,9 @@ const sx = {
 };
 
 export default function FormSummary({ ...props }) {
+  const { weightUpdated, weightDetails } = useSelector((store) => store.order);
+  const dispatch = useDispatch();
+
   const [orderStatus, setOrderStatus] = useState("");
   const [grossWeight, setGrossWeight] = useState(0);
 
@@ -67,6 +72,17 @@ export default function FormSummary({ ...props }) {
     setOrderStatus(currStatus);
     saveOrderStatusToStorage(currStatus);
   }, [props.resetDefault, reloadFlag, props.formData]);
+
+  useEffect(() => {
+    if (weightUpdated) {
+      const orderData = serializeCurrentOrderData(
+        props.formState,
+        props.formData
+      );
+      setGrossWeight(calculateGrossWeight(orderData, weightDetails));
+      dispatch(grossWeightUpdated());
+    }
+  }, [weightUpdated]);
 
   useEffect(() => {
     if (props.formState === FORM_STATE.CREATE) {

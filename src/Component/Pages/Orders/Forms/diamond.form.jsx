@@ -21,9 +21,11 @@ import {
   getDiamondDefaultData,
   processOrderTableData,
 } from "../helper.order";
-import { STX } from "../../../../Helper/misc";
+import { STX, precision } from "../../../../Helper/misc";
 import { cad_table_sx as table_sx } from "../../Designs/helper.designs";
 import { DataTable } from "../../../Misc/Page-Misc";
+import { useDispatch } from "react-redux";
+import { updateGrossWeight } from "../../../../Store/order.slice";
 
 const DIAMOND_FORM_INDEX = 2;
 
@@ -40,6 +42,8 @@ export default function DiamondDataForm({
   isAdmin,
   resetDefault,
 }) {
+  const dispatch = useDispatch();
+
   const cachedData = useMemo(getDiamondDataFromStorage, [resetDefault]);
   const [tableData, setTableData] = useState([]);
 
@@ -56,6 +60,26 @@ export default function DiamondDataForm({
       return true;
     });
   }, [tableData]);
+
+  const onDataChange = (idx, name, value) => {
+    if (name === "total_weight") {
+      let totalWeight = 0;
+      tableData.forEach((row, _idx) => {
+        const _value = parseFloat(
+          idx === _idx ? value : row["total_weight"].value
+        );
+        if (!isNaN(_value)) {
+          totalWeight += _value;
+        }
+      });
+      totalWeight = precision(totalWeight);
+      dispatch(updateGrossWeight({ type: "diamond", weight: totalWeight }));
+    }
+  };
+
+  const onDelete = (idx) => {
+    onDataChange(idx, "total_weight", 0);
+  };
 
   return (
     <Box sx={sx.form_root}>
@@ -78,6 +102,8 @@ export default function DiamondDataForm({
                 columnMap={DIAMOND_DATA_COLS}
                 data={tableData}
                 setData={setTableData}
+                onChange={onDataChange}
+                onRowDelete={onDelete}
               />
               <TableRow sx={table_sx.tableRow}>
                 <TableCell sx={table_sx.totalCell} colSpan={3}>
