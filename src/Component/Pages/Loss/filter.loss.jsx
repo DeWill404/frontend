@@ -1,5 +1,7 @@
 import { Box, MenuItem, TextField } from "@mui/material";
 import { METAL_DEPT_NAMES } from "../../../assets/data/order-data";
+import { KT_VALUES } from "../../../assets/data/loss-data";
+import CustomAutoComplete from "../Orders/Forms/custom-autocomplete";
 
 const sx = {
   filter_root: {
@@ -13,8 +15,11 @@ const sx = {
     display: "flex",
     alignItems: "start",
     gap: "16px",
-    maxWidth: "500px",
-    flexDirection: { xs: "column", s: "row" },
+    maxWidth: "700px",
+    flexWrap: "wrap",
+    "& > *": {
+      flex: "1 1 200px",
+    },
   },
 };
 
@@ -57,6 +62,15 @@ export default function LossFilter({ valueRef, reload }) {
             inputProps={{
               className: valueRef.current.month ? "" : "date-empty",
             }}
+          />
+          <CustomAutoComplete
+            options={KT_VALUES}
+            label="KT"
+            name="kt"
+            value={valueRef.current.kt}
+            onChange={(_, newVal) =>
+              setValueRef({ target: { name: "kt", value: newVal } })
+            }
           />
         </Box>
       </Box>

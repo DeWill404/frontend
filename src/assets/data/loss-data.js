@@ -1,6 +1,7 @@
 export const DEFAULT_LOSS_FILTER = {
   dept: "",
   month: new Date().toISOString().split("-").slice(0, 2).join("-"),
+  kt: null,
 };
 
 export const LOSS_COLUMNS = [
@@ -35,4 +36,28 @@ export const LOSS_COLUMNS = [
     name: "complete_date",
     label: "Completion Date",
   },
+];
+
+export const KT_VALUES = [
+  "24",
+  "23",
+  "22",
+  "21",
+  "20",
+  "19",
+  "18",
+  "17",
+  "16",
+  "15",
+  "14",
+  "13",
+  "12",
+  "11",
+  "10",
+  "9",
+  "8",
+  "7",
+  "6",
+  "5",
+  "4",
 ];

@@ -9,24 +9,10 @@ import {
 } from "../../../assets/data/loss-data";
 import { getLossData } from "../../../Service/order.service";
 import MonthlyLoss from "./monthly-loss";
+import { calculateTotalDust } from "./helper.loss";
 
 const sx = {
   root: {
-    margin: {
-      xs: "-12px -14px 0px -14px",
-      sm: "-20px -20px 0px -14px",
-      md: "-20px -20px 0px -28px",
-    },
-    padding: {
-      xs: "12px 14px 0px 14px",
-      sm: "20px 20px 0px 14px",
-      md: "20px 20px 0px 28px",
-    },
-    maxHeight: {
-      xs: "calc(100vh - 57px)",
-      sm: "calc(100vh - 57px)",
-    },
-    overflow: "auto",
     "& td:not(:first-of-type), & th:not(:first-of-type)": {
       borderLeft: (theme) => `1px solid ${theme.palette.grey[300]}`,
     },
@@ -43,27 +29,33 @@ export default function Loss() {
   const [isLoading, setLoading] = useState(false);
   const filterRef = useRef({ ...DEFAULT_LOSS_FILTER });
   const [noDataMessage, setMessage] = useState("No Data to display");
+  const totalDust = useRef(0);
   const [reloadTable, setReloadTable] = useState(0);
   const reload = () => setReloadTable((p) => (p === 100 ? 0 : p + 1));
   useEffect(() => {
     (async () => {
       if (!isLoading) {
         setLoading(true);
-        if (filterRef.current.dept && filterRef.current.month) {
+        let _d = [];
+        if (
+          filterRef.current.dept &&
+          filterRef.current.month &&
+          filterRef.current.kt
+        ) {
           setMessage("No Data to display");
           const dept = filterRef.current.dept;
           const month = filterRef.current.month;
+          const kt = filterRef.current.kt;
           const res = await getLossData(
             searchedValue,
-            `&dept=${dept}&month=${month}`
+            `&dept=${dept}&month=${month}&kt=${kt}`
           );
-          if (res.status) {
-            setDataList(res.data);
-          }
+          _d = res.data;
         } else {
           setMessage("Select Department & Month to show orders");
-          setDataList([]);
         }
+        setDataList(_d);
+        totalDust.current = calculateTotalDust(_d);
         setLoading(false);
       }
     })();
@@ -94,6 +86,7 @@ export default function Loss() {
           filterData={filterRef.current}
           lossData={lossData}
           setLossData={setLossData}
+          totalDust={totalDust.current}
         />
       )}
     </Box>
