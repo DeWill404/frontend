@@ -37,7 +37,7 @@ export function getRouteFromPath(path) {
 export function scrollToTop() {
   const el = document.getElementById("scroll-to-top");
   if (el) {
-    el.scrollIntoView();
+    el.scrollIntoView({ block: "end" });
   }
 }
 
