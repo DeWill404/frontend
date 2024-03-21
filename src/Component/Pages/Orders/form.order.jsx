@@ -1,4 +1,4 @@
-import { Box, Button, Divider, Slide } from "@mui/material";
+import { Box, Button, Divider, IconButton, Slide } from "@mui/material";
 import { FORM_STATE } from "../../../Helper/contant";
 import { StyledButton } from "../../Misc/style-button";
 import { useCallback, useMemo, useState } from "react";
@@ -26,6 +26,9 @@ import {
   saveSerializedDataToStorage,
 } from "../../../Helper/browser-storage";
 import { toast } from "react-toastify";
+import { Print } from "@mui/icons-material";
+import { useDispatch } from "react-redux";
+import { toggleExportPDF, togglePageLoader } from "../../../Store/misc.slice";
 
 const sx = {
   form_popup: {
@@ -46,13 +49,16 @@ const sx = {
   form_header: {
     display: "flex",
     justifyContent: "space-between",
-    alignItems: "start",
+    alignItems: "center",
     "& h2": {
       fontWeight: "normal",
       whiteSpace: "nowrap",
       overflow: "hidden",
       textOverflow: "ellipsis",
     },
+  },
+  print_btn: {
+    color: "black",
   },
   form_wrapper: {
     marginTop: "20px",
@@ -98,6 +104,8 @@ export default function OrderForm({
   formSubmit,
   isAdmin,
 }) {
+  const dispatch = useDispatch();
+
   const [isLoading, setLoading] = useState(false);
   const onSubmitClick = async (payload) => {
     if (!isLoading) {
@@ -132,8 +140,7 @@ export default function OrderForm({
     }
     return true;
   };
-  const submitHandler = async (e) => {
-    e.stopPropagation();
+  const serializeData = async () => {
     if (stepValidator) {
       let isValid = await stepValidator();
       if (!isValid) {
@@ -143,11 +150,17 @@ export default function OrderForm({
       } else {
         const currData = getSerializedFromStorage();
         const orderStatus = getOrderStatusFromStorage();
-        const grossWeight = getOrderGrossWeightFromStorage();
         currData["order_status"] = orderStatus;
-        currData["gross_weight"] = grossWeight;
-        onSubmitClick(currData);
+        return currData;
       }
+    }
+    return;
+  };
+  const submitHandler = async (e) => {
+    e.stopPropagation();
+    const currData = await serializeData();
+    if (currData) {
+      onSubmitClick(currData);
     }
   };
 
@@ -201,6 +214,17 @@ export default function OrderForm({
     setResetDialog(true);
   };
 
+  const onPrint = async () => {
+    const currData = await serializeData();
+    if (showForm != FORM_STATE.CREATE) {
+      currData["order_id"] = formData.order_id;
+    }
+    if (currData) {
+      dispatch(togglePageLoader(true));
+      dispatch(toggleExportPDF({ visible: true, data: currData }));
+    }
+  };
+
   return (
     <Slide direction="up" unmountOnExit in={showForm !== FORM_STATE.CLOSE}>
       <Box id="order-form" sx={sx.form_popup}>
@@ -214,6 +238,9 @@ export default function OrderForm({
               </h5>
             )}
           </Box>
+          <IconButton size="large" sx={sx.print_btn} onClick={onPrint}>
+            <Print />
+          </IconButton>
         </Box>
         <Box sx={sx.form_wrapper}>
           {showForm === FORM_STATE.CREATE && (

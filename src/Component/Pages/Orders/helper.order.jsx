@@ -269,6 +269,7 @@ export const setOrderDesign = (setter, data, prevData, stateData, ref) => {
   designObj = _.cloneDeep(designObj);
   setter(designObj);
   ref.current = designObj;
+  return designObj;
 };
 
 export const getReadOnlyProps = (isReadOnly, inputProps = {}, sx = {}) =>

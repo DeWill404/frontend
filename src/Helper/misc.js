@@ -84,3 +84,8 @@ export const imagePath = (key) => {
   }
   return process.env.REACT_APP_BACKEND_URI + "/misc/images/" + key;
 };
+
+export const parseDate = (date) => {
+  if (!date) return date;
+  return date.split("T")[0];
+};

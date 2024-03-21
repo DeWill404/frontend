@@ -1,7 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { DELETE_STATE } from "../Helper/contant";
-import { ODK, ORDER_DATA } from "../assets/data/order-data";
-import { DESIGN_DATA } from "../assets/data/design-data";
 
 const initialState = {
   isSidebarOpen: false,
@@ -18,9 +16,9 @@ const initialState = {
     message: null,
     id: null,
   },
-  pdfDialog: {
-    visible: true,
-    data: { ...ORDER_DATA, [ODK.DESIGN]: DESIGN_DATA },
+  exportPDF: {
+    visible: false,
+    data: {},
   },
 };
 
@@ -60,9 +58,9 @@ export const miscSlice = createSlice({
         id: action.payload?.id || null,
       },
     }),
-    togglePDFDialog: (state, action) => ({
+    toggleExportPDF: (state, action) => ({
       ...state,
-      pdfDialog: action.payload,
+      exportPDF: action.payload,
     }),
   },
 });
@@ -74,7 +72,7 @@ export const {
   togglePasswordPreview,
   togglePageLoader,
   toggleDeleteDialog,
-  togglePDFDialog,
+  toggleExportPDF
 } = miscSlice.actions;
 
 const miscReducer = miscSlice.reducer;

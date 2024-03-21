@@ -6,6 +6,7 @@ import {
   Inventory,
   Iso,
   PostAdd,
+  Print,
   Summarize,
 } from "@mui/icons-material";
 import JobSheetForm from "../../Component/Pages/Orders/Forms/job-sheet.form";
@@ -123,6 +124,11 @@ export const ORDER_TABLE_ACTIONS = {
   DELETE_USER: {
     icon: <Delete />,
     label: "Delete Order",
+    onClick: () => {},
+  },
+  PRINT_ORDER: {
+    icon: <Print />,
+    label: "Print Order",
     onClick: () => {},
   },
 };
@@ -246,6 +252,7 @@ export const ORDER_DATA = {
   _id: "65db2ac9786d93f361c9c24d",
   order_id: "12345678",
   order_status: "Not Started",
+  gross_weight: 100,
   [ODK.DESIGN]: {
     design_id: "75640098",
   },

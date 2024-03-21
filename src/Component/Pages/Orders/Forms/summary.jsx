@@ -59,17 +59,8 @@ export default function FormSummary({ ...props }) {
     );
     saveSerializedDataToStorage(orderData);
 
-    let currWeight;
-    const cachedWeight = getOrderGrossWeightFromStorage();
-    if (cachedWeight) {
-      currWeight = cachedWeight;
-    } else if (props.formState !== FORM_STATE.CREATE) {
-      currWeight = props.formData.gross_weight;
-    } else {
-      currWeight = calculateGrossWeight(orderData);
-    }
-    setGrossWeight(currWeight);
-    saveOrderGrossWeightToStorage(currWeight);
+    const grossWeight = calculateGrossWeight(orderData);
+    setGrossWeight(grossWeight);
 
     let currStatus;
     const cachedStatus = getOrderStatusFromStorage();
@@ -90,9 +81,7 @@ export default function FormSummary({ ...props }) {
         props.formState,
         props.formData
       );
-      const updatedWeight = calculateGrossWeight(orderData, weightDetails);
-      setGrossWeight(updatedWeight);
-      saveOrderGrossWeightToStorage(updatedWeight);
+      setGrossWeight(calculateGrossWeight(orderData, weightDetails));
       dispatch(grossWeightUpdated());
     }
   }, [weightUpdated]);

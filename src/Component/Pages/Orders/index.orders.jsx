@@ -15,6 +15,7 @@ import {
 } from "../../../assets/data/order-data";
 import {
   toggleDeleteDialog,
+  toggleExportPDF,
   togglePageLoader,
 } from "../../../Store/misc.slice";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -31,6 +32,8 @@ import {
   updateOrder,
 } from "../../../Service/order.service";
 import FilterOrder from "./filter.order";
+import { grossWeightUpdated } from "../../../Store/order.slice";
+import { getDesignList } from "../../../Service/design.service";
 
 export default function Orders() {
   const route = ROUTE.ORDER;
@@ -57,6 +60,7 @@ export default function Orders() {
     }
     orderFormDataCleanup();
     orderDataListCleanup();
+    dispatch(grossWeightUpdated());
     setShowForm(state);
   };
 
@@ -186,6 +190,17 @@ export default function Orders() {
       `;
       const id = `${route.route}/${rowId}`;
       dispatch(toggleDeleteDialog({ state, message, id }));
+    }
+  };
+  ORDER_TABLE_ACTIONS.PRINT_ORDER.onClick = async (rowId) => {
+    const row = dataList.find((data) => data._id === rowId);
+    if (row) {
+      dispatch(togglePageLoader(true));
+      const res = await getDesignList(row.design.design_id);
+      if (res.status) {
+        const data = { ...row, design: res.data[0] };
+        dispatch(toggleExportPDF({ visible: true, data }));
+      }
     }
   };
   useEffect(() => {

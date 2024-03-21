@@ -23,8 +23,13 @@ import { Add, Edit } from "@mui/icons-material";
 import _ from "lodash";
 import { toast } from "react-toastify";
 import { CustomDialog } from "../../../Misc/custom-dialog";
-import { mapFilterToParams } from "../../Designs/helper.designs";
+import {
+  getTotalWeight,
+  mapFilterToParams,
+} from "../../Designs/helper.designs";
 import DesignForm from "../../Designs/form.design";
+import { useDispatch } from "react-redux";
+import { updateGrossWeight } from "../../../../Store/order.slice";
 
 const ORDER_DESIGN_FORM_INDEX = 1;
 
@@ -90,6 +95,8 @@ export default function OrderDesignForm({
   setValidator,
   isAdmin,
 }) {
+  const dispatch = useDispatch();
+
   const scrollToTop = () => {
     document
       .getElementById("order-form-scroll-element")
@@ -111,6 +118,7 @@ export default function OrderDesignForm({
   const { state } = useLocation();
   const navigate = useNavigate();
   const refState = useRef(null);
+  const isFirstRender = useRef(true);
   const [selectedDesign, setDesignSelection] = useState(null);
   const [designList, setDesignList] = useState([]);
   const [loadingDesign, setDesignLoading] = useState(false);
@@ -204,7 +212,21 @@ export default function OrderDesignForm({
       }
       setDesignLoading(false);
 
-      setOrderDesign(setDesignSelection, data, designData, state, refState);
+      const designObj = setOrderDesign(
+        setDesignSelection,
+        data,
+        designData,
+        state,
+        refState
+      );
+      if (isFirstRender.current && designObj) {
+        dispatch(
+          updateGrossWeight({
+            type: "diamond",
+            weight: getTotalWeight(designObj.cad_data),
+          })
+        );
+      }
       if (state && state.action === "create_order") {
         navigate(ROUTE.ORDER.route, { state: null });
       }
