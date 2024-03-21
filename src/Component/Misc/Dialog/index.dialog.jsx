@@ -8,6 +8,7 @@ import PageLoader from "./page-loader";
 import DeleteConfirmationDialog from "./delete-confirmation.dialog";
 import { DELETE_STATE, ROUTE } from "../../../Helper/contant";
 import { useLocation } from "react-router-dom";
+import PDFDialog from "../../Pdf/index.pdf";
 
 export function DialogWrapper() {
   const { pathname } = useLocation();
@@ -18,6 +19,7 @@ export function DialogWrapper() {
     passwordPreview,
     isPageLoaderVisible,
     deleteDialogState,
+    pdfDialog,
   } = useSelector((store) => store.misc);
   const dispatch = useDispatch();
 
@@ -39,6 +41,7 @@ export function DialogWrapper() {
       {deleteDialogState.state === DELETE_STATE.OPEN && (
         <DeleteConfirmationDialog />
       )}
+      {pdfDialog.visible && <PDFDialog />}
     </>
   );
 }

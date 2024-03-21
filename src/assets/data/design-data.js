@@ -55,6 +55,8 @@ export const DESIGN_DATA = {
   metal: { value: "Gold", is_admin_edit: false },
   kt: { value: "24", is_admin_edit: true },
   rhodium: { value: "Rose", is_admin_edit: false },
+  product_type: { value: "Pendant", is_admin_edit: false },
+  product_size: { value: "10", is_admin_edit: false },
   cad_data: [
     {
       shape: { value: "RD", is_admin_edit: false },

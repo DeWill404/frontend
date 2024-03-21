@@ -258,26 +258,26 @@ export const ORDER_DATA = {
     pcs: { value: "10", is_admin_edit: true },
     rhodium: { value: "Rose", is_admin_edit: false },
   },
-  [ODK.DIAMOND]: [
-    {
-      size: { value: "1", is_admin_edit: false },
-      pcs: { value: null, is_admin_edit: false },
-      pointer: { value: "4", is_admin_edit: false },
-      total_weight: { value: "10", is_admin_edit: true },
-    },
-    {
-      size: { value: "1", is_admin_edit: false },
-      pcs: { value: null, is_admin_edit: false },
-      pointer: { value: "6", is_admin_edit: false },
-      total_weight: { value: "30", is_admin_edit: true },
-    },
-    {
-      size: { value: "1", is_admin_edit: false },
-      pcs: { value: "2", is_admin_edit: false },
-      pointer: { value: "2", is_admin_edit: false },
-      total_weight: { value: "10", is_admin_edit: true },
-    },
-  ],
+  // [ODK.DIAMOND]: [
+  //   {
+  //     size: { value: "1", is_admin_edit: false },
+  //     pcs: { value: null, is_admin_edit: false },
+  //     pointer: { value: "4", is_admin_edit: false },
+  //     total_weight: { value: "10", is_admin_edit: true },
+  //   },
+  //   {
+  //     size: { value: "1", is_admin_edit: false },
+  //     pcs: { value: null, is_admin_edit: false },
+  //     pointer: { value: "6", is_admin_edit: false },
+  //     total_weight: { value: "30", is_admin_edit: true },
+  //   },
+  //   {
+  //     size: { value: "1", is_admin_edit: false },
+  //     pcs: { value: "2", is_admin_edit: false },
+  //     pointer: { value: "2", is_admin_edit: false },
+  //     total_weight: { value: "10", is_admin_edit: true },
+  //   },
+  // ],
   [ODK.METAL]: {
     filling: {
       pcs: { value: null, is_admin_edit: false },
