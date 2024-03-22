@@ -231,6 +231,7 @@ export default function DesignForm({
                 <MenuItem value="White">White</MenuItem>
                 <MenuItem value="Yellow">Yellow</MenuItem>
                 <MenuItem value="Rose">Rose</MenuItem>
+                <MenuItem value="Dual Tone">Dual Tone</MenuItem>
               </TextField>
             </Grid>
             <Grid item xs={12} sm={6} md={4}>
@@ -245,9 +246,17 @@ export default function DesignForm({
                 fullWidth
                 {...getReadOnlyProps(iro("product_type"))}
               >
-                <MenuItem value="Necklace">Necklace</MenuItem>
-                <MenuItem value="Pendant">Pendant</MenuItem>
+                <MenuItem value="Ring">Ring</MenuItem>
+                <MenuItem value="Necklace ">Necklace </MenuItem>
                 <MenuItem value="Bracelet">Bracelet</MenuItem>
+                <MenuItem value="Pendant">Pendant</MenuItem>
+                <MenuItem value="Nosepin ">Nosepin </MenuItem>
+                <MenuItem value="Earring">Earring</MenuItem>
+                <MenuItem value="Chain">Chain</MenuItem>
+                <MenuItem value="Bangle ">Bangle </MenuItem>
+                <MenuItem value="Mangtikka ">Mangtikka </MenuItem>
+                <MenuItem value="Anklet ">Anklet </MenuItem>
+                <MenuItem value="Bajuband">Bajuband</MenuItem>
               </TextField>
             </Grid>
             <Grid item xs={12} sm={6} md={4}>

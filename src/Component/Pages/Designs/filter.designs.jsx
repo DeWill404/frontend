@@ -103,6 +103,7 @@ const Filters = ({ value, onChange, isAdmin }) => {
         <MenuItem value="White">White</MenuItem>
         <MenuItem value="Yellow">Yellow</MenuItem>
         <MenuItem value="Rose">Rose</MenuItem>
+        <MenuItem value="Dual Tone">Dual Tone</MenuItem>
       </TextField>
       {isAdmin && (
         <Box className="chk-container">

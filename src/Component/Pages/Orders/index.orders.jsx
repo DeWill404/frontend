@@ -77,6 +77,7 @@ export default function Orders() {
     metal: "",
     kt: "",
     rhodium: "",
+    order_status: "",
   });
   const filterRef = useRef({
     start_date: "",
@@ -84,6 +85,7 @@ export default function Orders() {
     metal: "",
     kt: "",
     rhodium: "",
+    order_status: "",
   });
   const [dataList, setDataList] = useState([]);
   const [isLoading, setLoading] = useState(false);

@@ -44,6 +44,7 @@ export const mapFilterToParams = (filter) => {
   let metal = filter.metal.trim();
   let kt = filter.kt.trim();
   let rhodium = filter.rhodium.trim();
+  let order_status = filter.order_status.trim();
 
   let param = "";
   if (start_date) {
@@ -60,6 +61,9 @@ export const mapFilterToParams = (filter) => {
   }
   if (rhodium) {
     param += `&rhodium=${rhodium}`;
+  }
+  if (order_status) {
+    param += `&order_status=${order_status}`;
   }
   return param;
 };

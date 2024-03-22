@@ -13,6 +13,7 @@ import { CustomDialog } from "../../Misc/custom-dialog";
 import { StyledButton } from "../../Misc/style-button";
 import { showFilterApplied } from "./helper.order";
 import _ from "lodash";
+import { ORDER_STATUS } from "../../../assets/data/order-data";
 
 const sx = {
   filter_root: {
@@ -88,6 +89,7 @@ const Filters = ({ value, onChange }) => {
         value={value["metal"]}
         onChange={onChange}
       >
+        <MenuItem value="">No Filter</MenuItem>
         <MenuItem value="Gold">Gold</MenuItem>
         <MenuItem value="Silver">Silver</MenuItem>
         <MenuItem value="Brass">Brass</MenuItem>
@@ -109,9 +111,27 @@ const Filters = ({ value, onChange }) => {
         value={value["rhodium"]}
         onChange={onChange}
       >
+        <MenuItem value="">No Filter</MenuItem>
         <MenuItem value="White">White</MenuItem>
         <MenuItem value="Yellow">Yellow</MenuItem>
         <MenuItem value="Rose">Rose</MenuItem>
+        <MenuItem value="Dual Tone">Dual Tone</MenuItem>
+      </TextField>
+      <TextField
+        select
+        name="order_status"
+        label="Order Status"
+        placeholder="Select Order Status"
+        size="small"
+        value={value["order_status"]}
+        onChange={onChange}
+      >
+        <MenuItem value="">No Filter</MenuItem>
+        {ORDER_STATUS.map((status, idx) => (
+          <MenuItem key={idx} value={status}>
+            {status}
+          </MenuItem>
+        ))}
       </TextField>
     </Box>
   );
@@ -126,6 +146,7 @@ export default function FilterOrder({ prevValueRef, valueRef, reload }) {
     metal: "",
     kt: "",
     rhodium: "",
+    order_status: "",
   };
 
   const [filterValue, setValue] = useState({ ...defaultValue });
